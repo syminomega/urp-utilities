@@ -1,0 +1,18 @@
+{
+    "name": "SyminUrpUtilities.Editor",
+    "rootNamespace": "SyminStudio.Rendering.Universal",
+    "references": [
+        "GUID:4661ae0449d199e4ba71058fe429d53f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

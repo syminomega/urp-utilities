@@ -1,0 +1,10 @@
+{
+  "name": "com.syminstudio.urp-utilities",
+  "description": "Custom tools for urp enhanced.",
+  "version": "1.0.0-preview.1",
+  "unity": "2021.3",
+  "displayName": "Symin URP Utilities",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "11.0.0"
+  }
+}
