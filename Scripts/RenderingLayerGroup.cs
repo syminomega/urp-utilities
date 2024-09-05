@@ -8,7 +8,7 @@ namespace SyminStudio.Rendering.Universal
 
         public RenderingLayer RenderingLayerMask
         {
-            private get => renderingLayerMask;
+            get => renderingLayerMask;
             set
             {
                 renderingLayerMask = value;
