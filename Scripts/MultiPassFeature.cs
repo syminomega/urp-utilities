@@ -15,7 +15,8 @@ namespace SyminStudio.Rendering.Universal
 
         //渲染目标的 Layer
         public LayerMask layerMask;
-
+        
+        
         //渲染指定 renderingLayerMask 的 render 对象
         public RenderingLayer renderingLayerMask;
         
