@@ -36,13 +36,34 @@ namespace SyminStudio.Rendering.Universal.Editor
             EditorGUI.showMixedValue = _renderingLayerMaskProp.hasMultipleDifferentValues;
             EditorGUI.BeginChangeCheck();
             var maskValue =
-                EditorGUILayout.MaskField("Rendering Layer Mask", _renderingLayerMaskProp.intValue, layerNames);
+                EditorGUILayout.MaskField(_renderingLayerMaskProp.intValue, layerNames);
             if (EditorGUI.EndChangeCheck())
             {
                 _renderingLayerMaskProp.intValue = maskValue;
             }
 
             EditorGUI.showMixedValue = false;
+            // 设置属性按钮
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Apply To Self"))
+            {
+                foreach (var targetObject in targets)
+                {
+                    var renderingLayerGroup = (RenderingLayerGroup)targetObject;
+                    renderingLayerGroup.ApplyToSelf();
+                }
+            }
+
+            if (GUILayout.Button("Apply To All Children"))
+            {
+                foreach (var targetObject in targets)
+                {
+                    var renderingLayerGroup = (RenderingLayerGroup)targetObject;
+                    renderingLayerGroup.ApplyToAllChildren();
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
 
 
             // 应用属性修改

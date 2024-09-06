@@ -9,7 +9,7 @@
 ### Method B
 1. Open package manager window in unity.
 2. Select `Add package from git URL`
-3. Set the URL to `https://github.com/syminomega/urp-utilities.git#1.0` and apply.
+3. Set the URL to `https://github.com/syminomega/urp-utilities.git#11.0` and apply.
 
 ## Features 
 Add custom multi pass render feature to URP.
