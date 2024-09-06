@@ -62,10 +62,8 @@ namespace SyminStudio.Rendering.Universal.Editor
             {
                 return 4 * (EditorGUIUtility.singleLineHeight + 2);
             }
-            else
-            {
-                return EditorGUIUtility.singleLineHeight + 2;
-            }
+
+            return EditorGUIUtility.singleLineHeight + 2;
         }
     }
 }

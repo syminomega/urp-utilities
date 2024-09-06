@@ -12,4 +12,5 @@
 3. Set the URL to `https://github.com/syminomega/urp-utilities.git#1.0` and apply.
 
 ## Features 
+Add custom multi pass render feature to URP.
 (TODO)
