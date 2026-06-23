@@ -136,6 +136,9 @@ namespace SyminStudio.Rendering.Universal
             var lightData = frameData.Get<UniversalLightData>();
             var resourceData = frameData.Get<UniversalResourceData>();
 
+            if (!resourceData.activeColorTexture.IsValid())
+                return;
+
             using (var builder = renderGraph.AddRasterRenderPass<PassData>(passName, out var passData, profilingSampler))
             {
                 passData.color = resourceData.activeColorTexture;
@@ -149,7 +152,8 @@ namespace SyminStudio.Rendering.Universal
 
                 builder.UseRendererList(passData.rendererListHandle);
                 builder.SetRenderAttachment(resourceData.activeColorTexture, 0, AccessFlags.Write);
-                builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, AccessFlags.Write);
+                if (resourceData.activeDepthTexture.IsValid())
+                    builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, AccessFlags.Write);
                 builder.AllowGlobalStateModification(true);
 
                 builder.SetRenderFunc((PassData data, RasterGraphContext context) =>
