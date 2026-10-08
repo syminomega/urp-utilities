@@ -22,7 +22,9 @@ namespace SyminStudio.Rendering.Universal
         private readonly RenderQueueType _renderQueueType;
         private FilteringSettings _filteringSettings;
 #if UNITY_6000_0_OR_NEWER
+#if !UNITY_6000_4_OR_NEWER
         private PassData _passData;
+#endif
         private static readonly ShaderTagId[] ShaderTagValues = { ShaderTagId.none };
         private static readonly RenderStateBlock[] RenderStateBlocks = new RenderStateBlock[1];
 #endif
@@ -54,7 +56,7 @@ namespace SyminStudio.Rendering.Universal
             _filteringSettings = new FilteringSettings(renderQueueRange, filterSettings.layerMask, renderingLayerMask);
 
             _renderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
-#if UNITY_6000_0_OR_NEWER
+#if UNITY_6000_0_OR_NEWER && !UNITY_6000_4_OR_NEWER
             _passData = new PassData();
 #endif
         }
@@ -69,6 +71,7 @@ namespace SyminStudio.Rendering.Universal
         }
         //TODO:设置 stencil state
 
+#if !UNITY_6000_4_OR_NEWER
         /// <summary>
         /// 定义渲染队列的CommandBuffer并执行
         /// </summary>
@@ -94,6 +97,7 @@ namespace SyminStudio.Rendering.Universal
             context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref _filteringSettings);
 #endif
         }
+#endif
 
 #if UNITY_6000_0_OR_NEWER
         private class PassData
@@ -117,6 +121,7 @@ namespace SyminStudio.Rendering.Universal
             return drawingSettings;
         }
 
+#if !UNITY_6000_4_OR_NEWER
         private DrawingSettings CreatePassDrawingSettings(RenderingData renderingData)
         {
             var sortingCriteria = _renderQueueType == RenderQueueType.Transparent
@@ -128,6 +133,7 @@ namespace SyminStudio.Rendering.Universal
             drawingSettings.overrideMaterialPassIndex = OverrideMaterialPassIndex;
             return drawingSettings;
         }
+#endif
 
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
         {
@@ -137,7 +143,9 @@ namespace SyminStudio.Rendering.Universal
             var resourceData = frameData.Get<UniversalResourceData>();
 
             if (!resourceData.activeColorTexture.IsValid())
+            {
                 return;
+            }
 
             using (var builder = renderGraph.AddRasterRenderPass<PassData>(passName, out var passData, profilingSampler))
             {
@@ -148,12 +156,16 @@ namespace SyminStudio.Rendering.Universal
                 passData.rendererListHandle = renderGraph.CreateRendererList(rendererListParams);
 
                 if (!passData.rendererListHandle.IsValid())
+                {
                     return;
+                }
 
                 builder.UseRendererList(passData.rendererListHandle);
                 builder.SetRenderAttachment(resourceData.activeColorTexture, 0, AccessFlags.Write);
                 if (resourceData.activeDepthTexture.IsValid())
+                {
                     builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, AccessFlags.Write);
+                }
                 builder.AllowGlobalStateModification(true);
 
                 builder.SetRenderFunc((PassData data, RasterGraphContext context) =>
